@@ -1,0 +1,98 @@
+%% Task 1a - Nearest Neighbor using Eucledian distance
+
+tic
+
+load("data_all.mat")
+
+% Initialization
+numClasses = 10; 
+chunkSize = 1000; 
+numChunks = num_test/chunkSize; % 10 stk
+% eller numChunks = num_train/chunkSize;
+
+
+% Classifying 3 chuncks of data
+
+% classes1 = NN__Classifier(trainv,testv(1:chunkSize,:),num_test,chunkSize,trainlab);
+% %save('chunk1_predictedClass.mat', classes1);
+% classes2 = NN__Classifier(trainv,testv(chunkSize+1:2*chunkSize,:),num_test,chunkSize,trainlab);
+% %save('chunk2_predictedClass.mat', classes2);
+%classes3 = NN__Classifier(trainv,testv(2*chunkSize+1:3*chunkSize,:),num_test,chunkSize,trainlab);
+% %save('chunk3_predictedClass.mat', classes3);
+
+
+% Confusion matrix
+confusionMatrix1 = zeros(numClasses);
+confusionMatrix2 = zeros(numClasses);
+confusionMatrix3 = zeros(numClasses);
+
+% The diagonal will be incremented each time we classified correctly
+for i = 1:chunkSize
+   confusionMatrix1(classes1(i)+ 1, testlab(i)+ 1) = confusionMatrix1(classes1(i)+ 1, testlab(i)+ 1) + 1;
+end
+for i = 1:chunkSize
+   confusionMatrix2(classes2(i)+ 1, testlab(chunkSize+i)+ 1) = confusionMatrix2(classes2(i)+ 1, testlab(chunkSize+i,:)+ 1) + 1;
+end
+for i = 1:chunkSize
+   confusionMatrix3(classes3(i)+ 1, testlab(2*chunkSize + i)+ 1) = confusionMatrix3(classes3(i)+ 1, testlab(2*chunkSize + i)+ 1) + 1;
+end
+
+
+% error rate
+errorRate1 = 1- trace(confusionMatrix1)/chunkSize;
+errorRate2 = 1- trace(confusionMatrix2)/chunkSize;
+errorRate3 = 1- trace(confusionMatrix3)/chunkSize;
+toc
+
+%% Task 1b - Plot of misclassified pictures
+
+% failures = zeros(6,1);
+% j = 0;
+% for i = 1:chunkSize
+%     i
+%     while j < 1
+%         if classes1(i) ~= testlab(i)
+%             j = j + 1;
+%             failures(j) = i;
+%             j
+%         end
+%     end 
+% end
+failures = zeros(chunkSize,1);
+
+for i = 1:chunkSize
+    failures(i) = classes1(i) - testlab(i);
+end
+
+convertingToPicture1 = zeros(28,28);
+convertingToPicture1(:) = testv(301,:);
+subplot(2,1,1);
+image(convertingToPicture1');
+
+
+convertingToPicture2 = zeros(28,28);
+convertingToPicture2(:) = testv(116,:);
+subplot(2,1,2);
+image(convertingToPicture2');
+
+convertingToPicture1 = zeros(28,28);
+convertingToPicture1(:) = testv(1,:).';
+%subplot(4,2,1);
+%image(convertingToPicture1);
+%% Task 1c - Plot of correctly classified pictures
+
+% convertingToPicture = zeros(28,28);
+% 
+% convertingToPicture(:) = testv(17,:); %% bytt ut 17 med tall hvor vi har bommet
+% image(convertingToPicture);
+% 
+% convertingToPicture(:) = testv(17,:);
+% image(convertingToPicture);
+% 
+% convertingToPicture(:) = testv(17,:);
+% image(convertingToPicture);
+% % 
+% % kan bruke dist til å lokalisere de vi har bommet på
+%     
+% 
+
