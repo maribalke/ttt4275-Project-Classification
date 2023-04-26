@@ -1,0 +1,42 @@
+
+function [predictedClass] = cluster_kNNClassifier(k, clusterTemplate, clusterClass, testv, num_test, numClass)
+
+predictedClass = zeros(num_test, 1);
+classFreq = zeros(numClass,1);
+
+
+    for i = 1:num_test
+        distances = dist(clusterTemplate,testv(i,:).'); % compare every row in test set to the cluster set
+        [~, index] = mink(distances, k); % for each in chunk, find minimum element from each column
+        [pred, ~, C] = mode(clusterClass(index));
+%         for j = 1:k+1
+%              % finner klassen til de k nærmeste
+%             pred
+%             classFreq(pred+1) = classFreq(pred+1) + 1; % 
+%         end
+%         classFreq
+        
+%         maxValue = max(classFreq);
+%         maxIndex = find(maxValue == classFreq);
+%         
+        if ~isempty(C)
+            for l = 1:k
+                clusterClass(index(l))
+                
+                %any(index(l) == maxIndex)
+                if any(clusterClass(index(l)) == ) 
+              
+                    maxIndex = index(l)
+                    break
+                end
+%             [~, index] = min(kDistances(maxIndex));
+            %maxIndex = maxIndex(index)
+            
+            end
+        
+        end
+        maxIndex
+        predictedClass(i) = maxIndex - 1;
+        i
+    end
+end

@@ -1,6 +1,6 @@
 %% Task 1a - Nearest Neighbor using Eucledian distance
 
-tic
+
 
 load("data_all.mat");
 load("chunk1_predictedClass.mat");
@@ -14,7 +14,8 @@ numChunks = num_test/chunkSize; % 10 stk
 % eller numChunks = num_train/chunkSize;
 
 
-% Classifying 3 chuncks of data
+%% Classifying chuncks of data
+
 
 % classes1 = NN__Classifier(trainv,testv(1:chunkSize,:),num_test,chunkSize,trainlab);
 % %save('chunk1_predictedClass.mat', classes1);
@@ -24,6 +25,7 @@ numChunks = num_test/chunkSize; % 10 stk
 % %save('chunk3_predictedClass.mat', classes3);
 
 
+%% Confusion Matrix and Error Rate
 % Confusion matrix
 confusionMatrix1 = zeros(numClasses);
 confusionMatrix2 = zeros(numClasses);
@@ -41,11 +43,14 @@ for i = 1:chunkSize
 end
 
 
+fig1 = figure(1)
+confusionchart(k_confusionMatrixCluster)
+
 % error rate
 errorRate1 = 1- trace(confusionMatrix1)/chunkSize;
 errorRate2 = 1- trace(confusionMatrix2)/chunkSize;
 errorRate3 = 1- trace(confusionMatrix3)/chunkSize;
-toc
+
 
 %% Task 1b - Plot of misclassified pictures
 
@@ -55,37 +60,41 @@ for i = 1:chunkSize
     failures(i) = classes1(i) - testlab(i);
 end
 
-fig1 = figure(1)
+fig3 = figure(3);
 convertingToPicture1 = zeros(28,28);
 convertingToPicture1(:) = testv(242,:); % guess = 8, acutal = 9
 subplot(2,2,1);
 image(convertingToPicture1');
+title("Classified as 8, actually 9", 'interpreter', 'latex')
 
 convertingToPicture2 = zeros(28,28);
 convertingToPicture2(:) = testv(116,:); % guess = 9, acutal = 4
 subplot(2,2,2);
 image(convertingToPicture2');
+title("Classified as 9, actually 4", 'interpreter', 'latex')
 
 convertingToPicture3 = zeros(28,28);
 convertingToPicture3(:) = testv(269,:); % guess = 5, acutal = 8
 subplot(2,2,3);
 image(convertingToPicture3');
+title("Classified as 5, actually 8", 'interpreter', 'latex')
 
 convertingToPicture4 = zeros(28,28);
 convertingToPicture4(:) = testv(321,:); % guess = 7, acutal = 9
 subplot(2,2,4);
 image(convertingToPicture4');
+title("Classified as 7, actually 9", 'interpreter', 'latex')
 
-tit = sprintf('Plot of correctly classified pictures');
-title(tit, 'interpreter', 'latex');
+tit = sprintf('Plot of incorrectly classified pictures');
+sgtitle(tit, 'interpreter', 'latex');
 grid on
 dims = [200 200 500 300];
-set(fig1, 'renderer', 'painters', 'position', dims, 'PaperPositionMode', 'auto');
+set(fig3, 'renderer', 'painters', 'position', dims, 'PaperPositionMode', 'auto');
 print('-dpng', '-r600', '/Users/bruker/Desktop/ttt4275-Estimering/MNist_ttt4275/figures/task1/b_incorreclyClassified');
 
 %% Task 1c - Plot of correctly classified pictures
 
-fig2 = figure(2)
+fig4 = figure(4);
 convertingToPicture1 = zeros(28,28);
 convertingToPicture1(:) = testv(1,:); 
 subplot(2,2,1);
@@ -106,11 +115,12 @@ convertingToPicture4(:) = testv(4,:);
 subplot(2,2,4);
 image(convertingToPicture4');
 
+
 tit = sprintf('Plot of correctly classified pictures');
-title(tit, 'interpreter', 'latex');
+sgtitle(tit, 'interpreter', 'latex');
 grid on
 dims = [200 200 500 300];
-set(fig2, 'renderer', 'painters', 'position', dims, 'PaperPositionMode', 'auto');
+set(fig4, 'renderer', 'painters', 'position', dims, 'PaperPositionMode', 'auto');
 print('-dpng', '-r600', '/Users/bruker/Desktop/ttt4275-Estimering/MNist_ttt4275/figures/task1/b_correclyClassified');
 
 
