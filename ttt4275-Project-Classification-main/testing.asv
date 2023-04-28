@@ -1,0 +1,3 @@
+
+test_set = testv(1:1000,:);
+dist(trainv,test_set(1,:).')
